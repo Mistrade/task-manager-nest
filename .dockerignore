@@ -1,0 +1,28 @@
+#db
+mongo-data
+redis
+
+# compiled output
+dist
+**/dist
+
+# tests
+coverage
+
+# git, vs config
+.git
+.husky
+.vscode
+**/.vscode
+
+# docs
+CHANGELOG.md
+README.md
+
+# devops
+devops
+
+# lint
+commitlint.config.ts
+.gitignore
+**/.gitignore

@@ -1,0 +1,47 @@
+version: '3.7'
+services:
+  task-manager-server:
+    container_name: task-manager-server
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./.docker.env
+    ports:
+      - 9000:9000
+    networks:
+      - webnet
+    depends_on:
+      - redis
+      - mongo
+  mongo:
+    image: arm64v8/mongo:4.2.17
+    container_name: task-manager-mongodb-arm64v8
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=RootUser123
+    ports:
+      - 27018:27017
+    volumes:
+      - ./mongo-data:/data/db
+    command: --wiredTigerCacheSizeGB 1.5
+    networks:
+      - webnet
+
+  redis:
+    container_name: task-manager-redis-arm64v8
+    image: arm64v8/redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis:/data
+    networks:
+      - webnet
+
+volumes:
+  redis:
+    driver: local
+
+networks:
+  webnet:
